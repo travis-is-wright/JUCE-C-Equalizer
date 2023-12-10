@@ -12,9 +12,9 @@
 
 enum Slope
 {
-    Slope_12, 
-    Slope_24, 
-    Slope_36, 
+    Slope_12,
+    Slope_24,
+    Slope_36,
     Slope_48
 };
 
