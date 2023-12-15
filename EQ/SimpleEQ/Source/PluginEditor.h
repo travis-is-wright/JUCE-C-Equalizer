@@ -60,12 +60,4 @@ private:
     std::vector<juce::Component*> getComps();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleEQAudioProcessorEditor)
-<<<<<<< Updated upstream
 };
-<<<<<<< HEAD
-=======
-};
->>>>>>> Stashed changes
-=======
-hi
->>>>>>> 54ca625caceb813fbdb3e8f08e6672d6a73eb9d3
