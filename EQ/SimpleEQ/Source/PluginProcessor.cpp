@@ -26,6 +26,7 @@ SimpleEQAudioProcessor::SimpleEQAudioProcessor()
 
 SimpleEQAudioProcessor::~SimpleEQAudioProcessor()
 {
+    // testing testing testing
 }
 
 //==============================================================================
@@ -271,7 +272,7 @@ void SimpleEQAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
                                                                                 chainSettings.peakFreq,
                                                                                 chainSettings.peakQuality,
                                                                                 juce::Decibels::decibelsToGain(chainSettings.peakGainInDecibels));
-    hi
+  
     *leftChain.get<ChainPositions::Peak>().coefficients = *peakCoefficients;
     *rightChain.get<ChainPositions::Peak>().coefficients = *peakCoefficients;
 
