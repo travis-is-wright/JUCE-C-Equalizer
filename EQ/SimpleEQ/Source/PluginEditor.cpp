@@ -39,7 +39,7 @@ void LookAndFeel::drawRotarySlider(juce::Graphics& g,
         r.setLeft(center.getX() - 2);
         r.setRight(center.getX() + 2);
         r.setTop(bounds.getY());
-        r.setBottom(center.getY() - rswl->getTextHeight() * 1.5);
+        r.setBottom(center.getY() - rswl->getTextHeight() * 1.75);
 
         p.addRoundedRectangle(r, 2.f);
         p.addRectangle(r);
@@ -59,10 +59,10 @@ void LookAndFeel::drawRotarySlider(juce::Graphics& g,
         r.setSize(strWidth + 4, rswl->getTextHeight() + 2);
         r.setCentre(bounds.getCentre());
 
-        g.setColour(Colours::white);
-        g.fillRect(r);
+       // g.setColour(Colours::white);
+       // g.fillRect(r);
 
-        g.setColour(Colours::black);
+        g.setColour(Colours::white);
         g.drawFittedText(text, r.toNearestInt(), juce::Justification::centred, 1);
     }
 
@@ -80,10 +80,10 @@ void CustomRotarySlider::paint(juce::Graphics& g)
 
     auto sliderBounds = getSliderBounds(); 
 
-    g.setColour(Colours::red);
-    g.drawRect(getLocalBounds());
-    g.setColour(Colours::yellow);
-    g.drawRect(sliderBounds);
+   // g.setColour(Colours::red);
+   // g.drawRect(getLocalBounds());
+   // g.setColour(Colours::yellow);
+   // g.drawRect(sliderBounds);
 
     getLookAndFeel().drawRotarySlider(g,
                                       sliderBounds.getX(),
@@ -114,7 +114,39 @@ juce::Rectangle<int> CustomRotarySlider::getSliderBounds() const
 
 juce::String CustomRotarySlider::getDisplayString() const
 {
-    return juce::String(getValue());
+    if (auto* choiceParam = dynamic_cast<juce::AudioParameterChoice*>(param))
+        return choiceParam->getCurrentChoiceName();
+
+    juce::String str; 
+    bool addK = false; 
+
+    if (auto* floatParam = dynamic_cast<juce::AudioParameterFloat*>(param))
+    {
+        float val = getValue(); 
+
+        if (val > 999.f)
+        {
+            val /= 1000.f;
+            addK = true; 
+        }
+
+        str = juce::String(val, (addK ? 2 : 0));
+    }
+    else
+    {
+        jassertfalse; // this shouldn't happen
+    }
+
+    if (suffix.isNotEmpty())
+    {
+        str << " ";
+        if (addK)
+            str << "k";
+
+        str << suffix; 
+    }
+
+    return str;
 }
 //==============================================================================
 ResponseCurveComponent::ResponseCurveComponent(SimpleEQAudioProcessor& p) : audioProcessor(p)
