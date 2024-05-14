@@ -23,10 +23,12 @@ void LookAndFeel::drawRotarySlider(juce::Graphics& g,
 
     auto bounds = Rectangle<float>(x, y, width, height);
 
-    g.setColour(Colour(24u, 69u, 59u));
+    auto enabled = slider.isEnabled();
+
+    g.setColour(enabled ? Colour(24u, 69u, 59u) : Colours::darkgrey);
     g.fillEllipse(bounds);
 
-    g.setColour(Colour(155u, 195u, 170u));
+    g.setColour(enabled ? Colour(155u, 195u, 170u) : Colours::grey);
     g.drawEllipse(bounds, 1.f);
 
     if (auto* rswl = dynamic_cast<CustomRotarySlider*>(&slider))
@@ -74,6 +76,8 @@ void LookAndFeel::drawToggleButton(juce::Graphics& g,
 {
     using namespace juce;
 
+    if (auto* pb = dynamic_cast<PowerButton*>(&toggleButton))
+    {
         Path powerButton;
 
         auto bounds = toggleButton.getLocalBounds();
@@ -81,18 +85,18 @@ void LookAndFeel::drawToggleButton(juce::Graphics& g,
         auto size = jmin(bounds.getWidth(), bounds.getHeight()) - 10;
         auto r = bounds.withSizeKeepingCentre(size, size).toFloat();
 
-        float ang = 40.f; //30.f;
+        float ang = 35.f; //35.f;
 
         size -= 7;
 
         powerButton.addCentredArc(r.getCentreX(),
-                                  r.getCentreY(),
-                                  size * 0.5,
-                                  size * 0.5,
-                                  0.f,
-                                  degreesToRadians(ang),
-                                  degreesToRadians(360.f - ang),
-                                  true);
+            r.getCentreY(),
+            size * 0.5,
+            size * 0.5,
+            0.f,
+            degreesToRadians(ang),
+            degreesToRadians(360.f - ang),
+            true);
 
         powerButton.startNewSubPath(r.getCentreX(), r.getY());
         powerButton.lineTo(r.getCentre());
@@ -104,6 +108,18 @@ void LookAndFeel::drawToggleButton(juce::Graphics& g,
         g.setColour(color);
         g.strokePath(powerButton, pst);
         g.drawEllipse(r, 1);
+    }
+    else if (auto* analyzerButton = dynamic_cast<AnalyzerButton*>(&toggleButton))
+    {
+        auto color = !toggleButton.getToggleState() ? Colours::dimgrey : Colour(0u, 172u, 1u);
+
+        g.setColour(color);
+
+        auto bounds = toggleButton.getLocalBounds();
+        g.drawRect(bounds);
+
+        g.strokePath(analyzerButton->randomPath, PathStrokeType(1.f));
+    }
 }
 
 //==============================================================================
@@ -606,6 +622,42 @@ analyzerEnabledButtonAttachment(audioProcessor.apvts, "Analyzer Enabled", analyz
     peakBypassButton.setLookAndFeel(&lnf);
     lowcutBypassButton.setLookAndFeel(&lnf);
     highcutBypassButton.setLookAndFeel(&lnf);
+    analyzerEnabledButton.setLookAndFeel(&lnf);
+
+    auto safePtr = juce::Component::SafePointer<SimpleEQAudioProcessorEditor>(this);
+    peakBypassButton.onClick = [safePtr]()
+        {
+            if (auto* comp = safePtr.getComponent())
+            {
+                auto bypassed = comp->peakBypassButton.getToggleState();
+
+                comp->peakFreqSlider.setEnabled(!bypassed);
+                comp->peakGainSlider.setEnabled(!bypassed);
+                comp->peakQualitySlider.setEnabled(!bypassed);
+            }
+        };
+
+    lowcutBypassButton.onClick = [safePtr]()
+        {
+            if (auto* comp = safePtr.getComponent())
+            {
+                auto bypassed = comp->lowcutBypassButton.getToggleState();
+
+                comp->lowCutFreqSlider.setEnabled(!bypassed);
+                comp->lowCutSlopeSlider.setEnabled(!bypassed);
+            }
+        };
+
+    highcutBypassButton.onClick = [safePtr]()
+        {
+            if (auto* comp = safePtr.getComponent())
+            {
+                auto bypassed = comp->highcutBypassButton.getToggleState();
+
+                comp->highCutFreqSlider.setEnabled(!bypassed);
+                comp->highCutSlopeSlider.setEnabled(!bypassed);
+            }
+        };
 
     setSize (720, 480);
 }
@@ -615,6 +667,7 @@ SimpleEQAudioProcessorEditor::~SimpleEQAudioProcessorEditor()
     peakBypassButton.setLookAndFeel(nullptr);
     lowcutBypassButton.setLookAndFeel(nullptr);
     highcutBypassButton.setLookAndFeel(nullptr);
+    analyzerEnabledButton.setLookAndFeel(nullptr);
 }
 
 //==============================================================================
@@ -632,6 +685,16 @@ void SimpleEQAudioProcessorEditor::resized()
     // Dimensions for the sliders
 
     auto bounds = getLocalBounds();
+
+    auto analyzerEnabledArea = bounds.removeFromTop(25);
+    analyzerEnabledArea.setWidth(100);
+    analyzerEnabledArea.setX(5);
+    analyzerEnabledArea.removeFromTop(2);
+
+    analyzerEnabledButton.setBounds(analyzerEnabledArea);
+
+    bounds.removeFromTop(5);
+
     auto responseArea = bounds.removeFromTop(bounds.getHeight() * 0.33);
 
     responseCurveComponent.setBounds(responseArea);
