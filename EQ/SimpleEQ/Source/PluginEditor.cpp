@@ -78,12 +78,12 @@ void LookAndFeel::drawToggleButton(juce::Graphics& g,
 
         auto bounds = toggleButton.getLocalBounds();
 
-        auto size = jmin(bounds.getWidth(), bounds.getHeight()) - 6;
+        auto size = jmin(bounds.getWidth(), bounds.getHeight()) - 10;
         auto r = bounds.withSizeKeepingCentre(size, size).toFloat();
 
-        float ang = 30.f; //30.f;
+        float ang = 40.f; //30.f;
 
-        size -= 6;
+        size -= 7;
 
         powerButton.addCentredArc(r.getCentreX(),
                                   r.getCentreY(),
@@ -97,13 +97,13 @@ void LookAndFeel::drawToggleButton(juce::Graphics& g,
         powerButton.startNewSubPath(r.getCentreX(), r.getY());
         powerButton.lineTo(r.getCentre());
 
-        PathStrokeType pst(2.f, PathStrokeType::JointStyle::curved);
+        PathStrokeType pst(1.f, PathStrokeType::JointStyle::curved);
 
         auto color = toggleButton.getToggleState() ? Colours::dimgrey : Colour(0u, 172u, 1u);
 
         g.setColour(color);
         g.strokePath(powerButton, pst);
-        g.drawEllipse(r, 2);
+        g.drawEllipse(r, 1);
 }
 
 //==============================================================================
