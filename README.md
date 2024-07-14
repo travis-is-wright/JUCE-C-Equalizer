@@ -15,4 +15,6 @@ You can find the tutorial here: [MatKat Music's Equalizer Tutorial](https://www.
 - **User Interface**: Simple and intuitive user interface for easy control.
 
 
-<img src="https://github.com/travis-is-wright/JUCE-C-Equalizer/blob/master/equalizer.png" style="width: 50%">
+<div align="center">
+  <img src="https://github.com/travis-is-wright/JUCE-C-Equalizer/blob/master/equalizer.png" style="width: 50%;" alt="Equalizer Screenshot" />
+</div>
