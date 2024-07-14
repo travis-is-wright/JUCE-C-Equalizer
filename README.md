@@ -1,6 +1,6 @@
 # Equalizer Project
 
-This project is a C++ implementation of an audio equalizer. The equalizer allows you to adjust the balance between frequency components of an audio signal.
+This project is a C++ implementation of an audio equalizer using JUCE, an open-source cross-platform framework known for its GUIs and audio plug-in libraries. The equalizer allows you to adjust the balance between the frequency components of an audio signal.
 
 ## Acknowledgements
 
