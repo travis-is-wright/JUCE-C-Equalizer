@@ -14,5 +14,5 @@ You can find the tutorial here: [MatKat Music's Equalizer Tutorial](https://www.
 - **Real-time Processing**: Apply changes in real-time to the audio signal.
 - **User Interface**: Simple and intuitive user interface for easy control.
 
-<img src="https://github.com/travis-is-wright/JUCE-C-Equalizer/blob/main/equalizer.png" style="width: 50%">
+[<img src="https://github.com/travis-is-wright/JUCE-C-Equalizer/blob/main/equalizer.png" style="width: 50%">](https://github.com/travis-is-wright/JUCE-C-Equalizer/blob/master/equalizer.png)
 
