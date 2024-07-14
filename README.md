@@ -6,7 +6,7 @@ This project is a C++ implementation of an audio equalizer using JUCE, an open-s
 
 I would like to express my gratitude to MatKat Music for their excellent tutorial on creating an audio equalizer. The video provided invaluable guidance and insights that greatly enhanced my understanding and implementation of this project.
 
-You can find the tutorial here: [MatKat Music's Equalizer Tutorial](https://www.example.com)
+You can find the tutorial here: [MatKat Music's Equalizer Tutorial](https://www.youtube.com/watch?v=i_Iq4_Kd7Rc)
 
 ## Features
 
